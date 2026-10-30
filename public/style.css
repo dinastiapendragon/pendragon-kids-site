@@ -49,6 +49,17 @@ p+p{margin-top:12px}
 .aviso{margin-top:34px;border-left:4px solid var(--azul-claro);background:#fff;
   padding:14px 18px;border-radius:0 12px 12px 0;font-size:14.5px;color:var(--cinza)}
 
+.tres{display:grid;gap:20px;grid-template-columns:1fr;margin-top:24px}
+@media(min-width:720px){.tres{grid-template-columns:repeat(3,1fr)}}
+.tres article{border:2px solid var(--borda);border-radius:16px;background:#fff;padding:20px}
+.icone{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:12px;
+  font-size:22px;margin-bottom:10px}
+.icone.azul{background:#dceeff}.icone.ouro{background:#fff1b8}.icone.rosa{background:#ffe3ec}
+
+.episodio{border:2px solid var(--borda);border-radius:16px;background:#fff;padding:18px 20px;margin-top:16px}
+.episodio b{color:var(--azul);font-size:18px;display:block}
+.episodio span{font-size:13.5px;color:var(--cinza)}
+
 footer{background:var(--azul);color:#cfd8ef;padding:30px 0;font-size:14px;margin-top:40px}
 footer a{color:var(--ouro);text-decoration:none}
 footer .envolta{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}

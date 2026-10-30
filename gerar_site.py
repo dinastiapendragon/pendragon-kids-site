@@ -130,6 +130,17 @@ p+p{margin-top:12px}
 .aviso{margin-top:34px;border-left:4px solid var(--azul-claro);background:#fff;
   padding:14px 18px;border-radius:0 12px 12px 0;font-size:14.5px;color:var(--cinza)}
 
+.tres{display:grid;gap:20px;grid-template-columns:1fr;margin-top:24px}
+@media(min-width:720px){.tres{grid-template-columns:repeat(3,1fr)}}
+.tres article{border:2px solid var(--borda);border-radius:16px;background:#fff;padding:20px}
+.icone{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:12px;
+  font-size:22px;margin-bottom:10px}
+.icone.azul{background:#dceeff}.icone.ouro{background:#fff1b8}.icone.rosa{background:#ffe3ec}
+
+.episodio{border:2px solid var(--borda);border-radius:16px;background:#fff;padding:18px 20px;margin-top:16px}
+.episodio b{color:var(--azul);font-size:18px;display:block}
+.episodio span{font-size:13.5px;color:var(--cinza)}
+
 footer{background:var(--azul);color:#cfd8ef;padding:30px 0;font-size:14px;margin-top:40px}
 footer a{color:var(--ouro);text-decoration:none}
 footer .envolta{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}
@@ -140,6 +151,7 @@ footer nav{display:flex;gap:16px;flex-wrap:wrap}
 def pagina(titulo, descricao, corpo, caminho_raiz=".", capa=None):
     nav = f"""<nav>
       <a href="{caminho_raiz}/heroes/">The Heroes</a>
+      <a href="{caminho_raiz}/watch/">Stories &amp; Songs</a>
       <a href="{caminho_raiz}/free/">Free Pack</a>
       <a href="{caminho_raiz}/book/">The Book</a>
       <a href="{caminho_raiz}/parents/">For Parents</a>
@@ -204,13 +216,21 @@ def miniatura(origem, destino, largura=520):
 
 
 def construir():
-    if SAIDA.exists():
-        shutil.rmtree(SAIDA)
-    SAIDA.mkdir(parents=True)
+    # A pasta vive dentro do OneDrive, que trava arquivos enquanto sincroniza:
+    # apagar a árvore inteira falha com "Acesso negado" no meio da operação e
+    # deixa o site pela metade. Em vez de brigar, sobrescreve-se — o conjunto
+    # de arquivos é determinístico, então nada fica para trás de uma versão
+    # para outra. Só se limpa o que o gerador cria.
+    SAIDA.mkdir(parents=True, exist_ok=True)
+    for antigo in list(SAIDA.rglob("*.html")) + list(SAIDA.rglob("*.jpg")):
+        try:
+            antigo.unlink()
+        except PermissionError:
+            pass
     (SAIDA / "style.css").write_text(CSS, encoding="utf-8")
 
     # --- downloads: o pacote e as folhas avulsas que já são gratuitas --------
-    (SAIDA / "downloads").mkdir()
+    (SAIDA / "downloads").mkdir(exist_ok=True)
     shutil.copy(PACK / "PendragonKids_Activity_Pack.pdf",
                 SAIDA / "downloads" / "pendragon-kids-activity-pack.pdf")
     for chave, arquivo in FOLHA_AVULSA.items():
@@ -254,7 +274,18 @@ def construir():
   <div class="moldura"><img src="/img/pack.jpg" alt="The free Camelot Heroes activity pack"></div>
 </div>
 
-<h2 style="margin-top:46px">Meet the nine</h2>
+<h2 style="margin-top:50px">Stories made for wonder, kindness and creativity</h2>
+<div class="tres">
+  <article><span class="icone azul">&#9876;</span><h3>Little adventures</h3>
+    <p>Short, joyful stories with clear beginnings, surprises and happy endings.</p></article>
+  <article><span class="icone ouro">&#9998;</span><h3>Make and imagine</h3>
+    <p>Colouring pages and simple activities that turn watching into creating.</p></article>
+  <article><span class="icone rosa">&#9825;</span><h3>Big feelings</h3>
+    <p>Gentle moments about friendship, courage, patience and helping one another.</p></article>
+</div>
+<p style="margin-top:18px"><a href="/watch/">Watch the stories and sing along &#8594;</a></p>
+
+<h2 style="margin-top:50px">Meet the nine</h2>
 <p>Every one of them has a page of their own — and most have a free colouring
 sheet you can print right now.</p>
 <div class="grade">{cartoes}</div>
@@ -412,6 +443,45 @@ our own take on the old stories of Camelot, made small and friendly.</p>
         caminho_raiz="..",
         capa=("For parents and educators",
               "What Pendragon Kids is, and the rules we keep about children.")))
+
+    # --- historias e musicas (fusao com o rascunho de 29/10) ------------------
+    escrever("watch/index.html", pagina(
+        "Stories and songs — Pendragon Kids",
+        "Little Camelot stories and sing-along songs with Arthur and the "
+        "Camelot Heroes, for children aged 4 to 8.",
+        f"""<h2>Watch and sing along</h2>
+<p>Short stories and songs with Arthur and the Camelot Heroes — made to be
+watched with a grown-up, then turned into something to draw.</p>
+
+<div class="episodio">
+  <b>S01E01 &middot; Arthur Discovers Camelot</b>
+  <span>The first story &mdash; with a sing-along version.</span>
+</div>
+<div class="episodio">
+  <b>S01E02 &middot; Come Meet the Camelot Heroes</b>
+  <span>All nine heroes, one by one &mdash; with a sing-along version.</span>
+</div>
+
+<p style="margin-top:22px">
+  <a class="botao" href="{YOUTUBE}">Watch on YouTube</a>
+</p>
+<p class="leve" style="margin-top:14px">Shorter versions on
+  <a href="{INSTAGRAM}">Instagram</a> and <a href="{TIKTOK}">TikTok</a>.</p>
+
+<h2 style="margin-top:50px">Then colour what you watched</h2>
+<p>Every hero in the stories has a page here, and most have a colouring sheet
+you can print right now.</p>
+<a class="botao botao--calmo" href="/heroes/">Meet the nine heroes</a>
+
+<div class="aviso">
+  <b>For grown-ups.</b> Our videos are marked as made for children, which means
+  no comments and no notifications &mdash; so the conversation happens in our
+  <a href="{GRUPO_FB}">Facebook group</a> and by email, with adults.
+</div>
+""",
+        caminho_raiz="..",
+        capa=("Stories and songs",
+              "Little adventures from Camelot, made to watch together and then draw.")))
 
     # --- contagem final -----------------------------------------------------------
     paginas = sorted(p.relative_to(SAIDA).as_posix() for p in SAIDA.rglob("index.html"))

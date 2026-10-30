@@ -7,3 +7,9 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# O rascunho de 29/10 (outra ferramenta) foi FUNDIDO no gerador: a estrutura
+# ficou a nova, a secao de historias e musicas veio dele. Guardado fora do
+# repositorio para nao haver dois sites na mesma pasta. Tambem esta no commit
+# d8dd3a2, se precisar.
+_rascunho-29-10/
