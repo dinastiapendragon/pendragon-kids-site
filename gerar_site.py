@@ -33,6 +33,10 @@ SAIDA = RAIZ / "public"
 
 SITE = "https://pendragonkids.com"
 BEEHIIV = "https://pendragons-newsletter.beehiiv.com"
+# Para onde o formulário de inscrição envia. É o mesmo endereço que a própria
+# página do beehiiv usa. Se um dia for criado um "embed" no painel do beehiiv,
+# troca-se só esta linha — e o formulário vira um <iframe> do embed.
+BEEHIIV_ENVIO = f"{BEEHIIV}/create"
 AMAZON = "https://a.co/d/0hpAodfu"
 INSTAGRAM = "https://www.instagram.com/pendragonkids/"
 TIKTOK = "https://www.tiktok.com/@pendragonkids"
@@ -129,6 +133,17 @@ p+p{margin-top:12px}
 
 .aviso{margin-top:34px;border-left:4px solid var(--azul-claro);background:#fff;
   padding:14px 18px;border-radius:0 12px 12px 0;font-size:14.5px;color:var(--cinza)}
+
+.inscricao{margin-top:20px;border:2px solid var(--borda);border-radius:16px;
+  background:#fff;padding:20px}
+.inscricao label{display:block;font-weight:700;color:var(--azul);margin-bottom:8px}
+.inscricao-linha{display:flex;gap:12px;flex-wrap:wrap}
+.inscricao input[type=email]{flex:1 1 240px;min-width:0;padding:14px 16px;
+  border:2px solid var(--borda);border-radius:999px;font:inherit;color:var(--tinta);
+  background:var(--creme)}
+.inscricao input[type=email]:focus{outline:none;border-color:var(--azul-claro)}
+.inscricao button{margin-top:0;cursor:pointer;flex:0 0 auto}
+.inscricao .leve{margin-top:12px}
 
 .tres{display:grid;gap:20px;grid-template-columns:1fr;margin-top:24px}
 @media(min-width:720px){.tres{grid-template-columns:repeat(3,1fr)}}
@@ -376,7 +391,21 @@ print right now.</p>
 <h2 style="margin-top:50px">Get the next ones by email</h2>
 <p>New colouring pages, little stories and activities — sent to grown-ups, not
 to children. One email at a time, and you can leave whenever you like.</p>
-<a class="botao botao--calmo" href="{BEEHIIV}">Join the mailing list</a>
+
+<form class="inscricao" action="{BEEHIIV_ENVIO}" method="post">
+  <input type="hidden" name="sent_from_orchid" value="true">
+  <label for="email">Your email address</label>
+  <div class="inscricao-linha">
+    <input id="email" name="email" type="email" required autocomplete="email"
+           placeholder="you@example.com" aria-label="Your email address">
+    <button class="botao" type="submit">Send me the next pages</button>
+  </div>
+  <p class="leve">For grown-ups only. No cost, and you can unsubscribe from any
+  email. We never write to children.</p>
+</form>
+
+<p class="leve" style="margin-top:14px">Prefer to see the list first?
+<a href="{BEEHIIV}">Read it here</a>.</p>
 
 <div class="aviso">
   <b>A note for grown-ups.</b> The mailing list is for adults. We never ask a

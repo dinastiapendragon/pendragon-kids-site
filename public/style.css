@@ -49,6 +49,17 @@ p+p{margin-top:12px}
 .aviso{margin-top:34px;border-left:4px solid var(--azul-claro);background:#fff;
   padding:14px 18px;border-radius:0 12px 12px 0;font-size:14.5px;color:var(--cinza)}
 
+.inscricao{margin-top:20px;border:2px solid var(--borda);border-radius:16px;
+  background:#fff;padding:20px}
+.inscricao label{display:block;font-weight:700;color:var(--azul);margin-bottom:8px}
+.inscricao-linha{display:flex;gap:12px;flex-wrap:wrap}
+.inscricao input[type=email]{flex:1 1 240px;min-width:0;padding:14px 16px;
+  border:2px solid var(--borda);border-radius:999px;font:inherit;color:var(--tinta);
+  background:var(--creme)}
+.inscricao input[type=email]:focus{outline:none;border-color:var(--azul-claro)}
+.inscricao button{margin-top:0;cursor:pointer;flex:0 0 auto}
+.inscricao .leve{margin-top:12px}
+
 .tres{display:grid;gap:20px;grid-template-columns:1fr;margin-top:24px}
 @media(min-width:720px){.tres{grid-template-columns:repeat(3,1fr)}}
 .tres article{border:2px solid var(--borda);border-radius:16px;background:#fff;padding:20px}

@@ -41,7 +41,21 @@
 <h2 style="margin-top:50px">Get the next ones by email</h2>
 <p>New colouring pages, little stories and activities — sent to grown-ups, not
 to children. One email at a time, and you can leave whenever you like.</p>
-<a class="botao botao--calmo" href="https://pendragons-newsletter.beehiiv.com">Join the mailing list</a>
+
+<form class="inscricao" action="https://pendragons-newsletter.beehiiv.com/create" method="post">
+  <input type="hidden" name="sent_from_orchid" value="true">
+  <label for="email">Your email address</label>
+  <div class="inscricao-linha">
+    <input id="email" name="email" type="email" required autocomplete="email"
+           placeholder="you@example.com" aria-label="Your email address">
+    <button class="botao" type="submit">Send me the next pages</button>
+  </div>
+  <p class="leve">For grown-ups only. No cost, and you can unsubscribe from any
+  email. We never write to children.</p>
+</form>
+
+<p class="leve" style="margin-top:14px">Prefer to see the list first?
+<a href="https://pendragons-newsletter.beehiiv.com">Read it here</a>.</p>
 
 <div class="aviso">
   <b>A note for grown-ups.</b> The mailing list is for adults. We never ask a
