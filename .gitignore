@@ -1,0 +1,9 @@
+# Este repositório é PÚBLICO e contém SÓ o site.
+# A pasta PENDRAGON KIDS inteira NÃO entra aqui — por isso o repo começa em
+# SITE/, e não um nível acima. Material inédito, fichas-fonte, produção de
+# vídeo e arquivos do KDP ficam de fora por construção.
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,55 @@
+
+:root{
+  --azul:#1b2f6b; --azul-claro:#60b0e2; --ouro:#ffdd55; --creme:#fffaf0;
+  --tinta:#23201c; --cinza:#6b6358; --borda:#e6ddc9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--creme);color:var(--tinta);
+  font:16px/1.65 "Segoe UI",system-ui,-apple-system,sans-serif}
+img{max-width:100%;display:block}
+a{color:var(--azul)}
+.envolta{max-width:1040px;margin:0 auto;padding:0 20px}
+
+header.topo{background:var(--azul);color:#fff;padding:14px 0}
+.topo .envolta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.marca{font-weight:800;letter-spacing:1px;color:var(--ouro);text-decoration:none;font-size:19px}
+.topo nav{display:flex;gap:18px;flex-wrap:wrap}
+.topo nav a{color:#fff;text-decoration:none;font-size:14px;letter-spacing:.3px}
+.topo nav a:hover{color:var(--ouro)}
+
+.heroi-capa{background:var(--azul-claro);padding:46px 0;text-align:center}
+.heroi-capa h1{font-size:clamp(28px,5vw,44px);color:#fff;line-height:1.15;
+  text-shadow:0 2px 0 rgba(27,47,107,.35)}
+.heroi-capa p{color:#fff;font-size:17px;margin-top:12px;max-width:52ch;margin-inline:auto}
+
+main{padding:40px 0 60px}
+h2{font-size:25px;color:var(--azul);margin-bottom:14px}
+h3{font-size:19px;color:var(--azul);margin-bottom:8px}
+p+p{margin-top:12px}
+.leve{color:var(--cinza);font-size:14.5px}
+
+.botao{display:inline-block;margin-top:18px;padding:15px 30px;border-radius:999px;
+  background:var(--ouro);color:var(--azul);font-weight:800;text-decoration:none;
+  border:3px solid var(--azul);font-size:16px}
+.botao:hover{background:#fff}
+.botao--calmo{background:#fff}
+
+.grade{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-top:24px}
+.cartao{border:2px solid var(--borda);border-radius:16px;background:#fff;padding:14px;
+  text-align:center;text-decoration:none;color:inherit}
+.cartao:hover{border-color:var(--azul-claro)}
+.cartao img{border-radius:10px;margin-bottom:10px}
+.cartao b{display:block;color:var(--azul);font-size:18px}
+.cartao span{font-size:13px;color:var(--cinza)}
+
+.duas{display:grid;gap:34px;grid-template-columns:1fr;align-items:start}
+@media(min-width:760px){.duas{grid-template-columns:1fr 1fr}}
+.moldura{border:2px solid var(--borda);border-radius:16px;background:#fff;padding:12px}
+
+.aviso{margin-top:34px;border-left:4px solid var(--azul-claro);background:#fff;
+  padding:14px 18px;border-radius:0 12px 12px 0;font-size:14.5px;color:var(--cinza)}
+
+footer{background:var(--azul);color:#cfd8ef;padding:30px 0;font-size:14px;margin-top:40px}
+footer a{color:var(--ouro);text-decoration:none}
+footer .envolta{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}
+footer nav{display:flex;gap:16px;flex-wrap:wrap}
