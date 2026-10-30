@@ -21,6 +21,7 @@
 # Só as 5 folhas que já são do pacote gratuito (Arthur, Merlin, Aine, Bors,
 # Percival) são oferecidas avulsas. Dar 9 das 32 páginas seria entregar 28% do
 # livro de graça — decisão comercial do autor, não minha.
+import hashlib
 import pathlib
 import shutil
 from PIL import Image
@@ -83,6 +84,10 @@ FOLHA_AVULSA = {
     "percival": "pack_05_color_percival.png",
 }
 
+# O Cloudflare serve o CSS com max-age de 4 horas. Sem carimbo, o visitante
+# recebe HTML novo com folha de estilo velha — e a página chega quebrada.
+# O carimbo é o resumo do próprio CSS: muda sozinho quando o CSS muda,
+# e só então.
 CSS = """
 :root{
   --azul:#1b2f6b; --azul-claro:#60b0e2; --ouro:#ffdd55; --creme:#fffaf0;
@@ -162,6 +167,8 @@ footer .envolta{display:flex;gap:20px;justify-content:space-between;flex-wrap:wr
 footer nav{display:flex;gap:16px;flex-wrap:wrap}
 """
 
+CARIMBO = hashlib.md5(CSS.encode("utf-8")).hexdigest()[:8]
+
 
 def pagina(titulo, descricao, corpo, caminho_raiz=".", capa=None):
     nav = f"""<nav>
@@ -186,7 +193,7 @@ def pagina(titulo, descricao, corpo, caminho_raiz=".", capa=None):
 <meta property="og:site_name" content="Pendragon Kids">
 <meta property="og:title" content="{titulo}">
 <meta property="og:description" content="{descricao}">
-<link rel="stylesheet" href="{caminho_raiz}/style.css">
+<link rel="stylesheet" href="{caminho_raiz}/style.css?v={CARIMBO}">
 </head>
 <body>
 <header class="topo"><div class="envolta">
