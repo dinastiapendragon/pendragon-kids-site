@@ -1,9 +1,0 @@
-{
-  // O site é só HTML e imagens: não há código de servidor, não há build.
-  // Esta ficha diz ao Cloudflare o que servir e de onde.
-  "name": "pendragon-kids-site",
-  "compatibility_date": "2026-10-30",
-  "assets": {
-    "directory": "./public"
-  }
-}

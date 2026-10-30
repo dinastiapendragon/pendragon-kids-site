@@ -149,6 +149,9 @@ p+p{margin-top:12px}
 .inscricao input[type=email]:focus{outline:none;border-color:var(--azul-claro)}
 .inscricao button{margin-top:0;cursor:pointer;flex:0 0 auto}
 .inscricao .leve{margin-top:12px}
+.inscricao-recado{margin-top:12px;font-weight:700;color:var(--azul)}
+.inscricao--feita .inscricao-linha{display:none}
+.inscricao--feita .inscricao-recado{font-size:17px}
 
 .tres{display:grid;gap:20px;grid-template-columns:1fr;margin-top:24px}
 @media(min-width:720px){.tres{grid-template-columns:repeat(3,1fr)}}
@@ -169,8 +172,67 @@ footer nav{display:flex;gap:16px;flex-wrap:wrap}
 
 CARIMBO = hashlib.md5(CSS.encode("utf-8")).hexdigest()[:8]
 
+# O formulário funciona SEM este roteiro: nesse caso ele envia direto para a
+# página do beehiiv (o `action` do <form>). Com o roteiro, a inscrição acontece
+# sem sair do site: ele fala com a Function em /subscribe, que guarda a chave.
+JS = """// Inscrição sem sair da página. Se algo falhar, o formulário segue
+// o caminho normal do <form> e a pessoa termina na página do beehiiv.
+(function () {
+  var f = document.querySelector("form.inscricao");
+  if (!f || !window.fetch) return;
 
-def pagina(titulo, descricao, corpo, caminho_raiz=".", capa=None):
+  var campo = f.querySelector('input[type=email]');
+  var botao = f.querySelector("button");
+  var recado = document.createElement("p");
+  recado.className = "leve inscricao-recado";
+  recado.setAttribute("role", "status");
+  f.appendChild(recado);
+
+  var textoOriginal = botao.textContent;
+
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = campo.value.trim();
+    if (!email) return;
+
+    botao.disabled = true;
+    botao.textContent = "Sending…";
+    recado.textContent = "";
+
+    fetch("/subscribe", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: email })
+    })
+      .then(function (r) { return r.json().catch(function () { return {}; }); })
+      .then(function (d) {
+        if (d && d.ok) {
+          f.classList.add("inscricao--feita");
+          recado.textContent =
+            "Thank you! Check your inbox — your pages are on the way.";
+          campo.value = "";
+        } else {
+          falhar();
+        }
+      })
+      .catch(falhar);
+  });
+
+  function falhar() {
+    // Nada de beco sem saída: devolvemos a pessoa ao caminho que funciona.
+    botao.disabled = false;
+    botao.textContent = textoOriginal;
+    recado.textContent = "";
+    HTMLFormElement.prototype.submit.call(f);
+  }
+})();
+"""
+
+CARIMBO_JS = hashlib.md5(JS.encode("utf-8")).hexdigest()[:8]
+
+
+
+def pagina(titulo, descricao, corpo, caminho_raiz=".", capa=None, roteiro=False):
     nav = f"""<nav>
       <a href="{caminho_raiz}/heroes/">The Heroes</a>
       <a href="{caminho_raiz}/watch/">Stories &amp; Songs</a>
@@ -182,6 +244,10 @@ def pagina(titulo, descricao, corpo, caminho_raiz=".", capa=None):
     if capa:
         bloco_capa = f"""<section class="heroi-capa"><div class="envolta">
       <h1>{capa[0]}</h1><p>{capa[1]}</p></div></section>"""
+    bloco_roteiro = (
+        f'<script src="{caminho_raiz}/js/subscribe.js?v={CARIMBO_JS}"></script>'
+        if roteiro else ""
+    )
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -218,6 +284,7 @@ def pagina(titulo, descricao, corpo, caminho_raiz=".", capa=None):
     <a href="{GRUPO_FB}">Facebook Group</a>
   </nav>
 </div></footer>
+{bloco_roteiro}
 </body>
 </html>
 """
@@ -250,6 +317,8 @@ def construir():
         except PermissionError:
             pass
     (SAIDA / "style.css").write_text(CSS, encoding="utf-8")
+    (SAIDA / "js").mkdir(exist_ok=True)
+    (SAIDA / "js" / "subscribe.js").write_text(JS, encoding="utf-8")
 
     # --- downloads: o pacote e as folhas avulsas que já são gratuitas --------
     (SAIDA / "downloads").mkdir(exist_ok=True)
@@ -420,6 +489,7 @@ to children. One email at a time, and you can leave whenever you like.</p>
 </div>
 """,
         caminho_raiz="..",
+        roteiro=True,
         capa=("The free Camelot activity pack",
               "Ten printable pages for parents and educators to enjoy with a child.")))
 

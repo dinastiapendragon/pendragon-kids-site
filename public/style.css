@@ -59,6 +59,9 @@ p+p{margin-top:12px}
 .inscricao input[type=email]:focus{outline:none;border-color:var(--azul-claro)}
 .inscricao button{margin-top:0;cursor:pointer;flex:0 0 auto}
 .inscricao .leve{margin-top:12px}
+.inscricao-recado{margin-top:12px;font-weight:700;color:var(--azul)}
+.inscricao--feita .inscricao-linha{display:none}
+.inscricao--feita .inscricao-recado{font-size:17px}
 
 .tres{display:grid;gap:20px;grid-template-columns:1fr;margin-top:24px}
 @media(min-width:720px){.tres{grid-template-columns:repeat(3,1fr)}}
