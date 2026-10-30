@@ -14,8 +14,9 @@ Saída em `public/`. É essa pasta que o Cloudflare Pages publica.
 
 ## O que o site resolve
 
-1. o Activity Pack ganha endereço fixo → o `[DOWNLOAD_LINK]` do e-mail de
-   boas-vindas deixa de ser um buraco;
+1. o Activity Pack ganhou endereço fixo — <https://pendragonkids.com/free/> —
+   e o `[DOWNLOAD_LINK]` do e-mail de boas-vindas deixou de ser um buraco
+   (preenchido em 30/10/2026);
 2. cada herói tem a sua página → os pins passam a ter destino específico
    (a regra é: pin nunca aponta para a home);
 3. deixa de depender de Amazon e Instagram, que são terra alugada.
